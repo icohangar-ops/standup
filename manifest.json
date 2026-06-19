@@ -1,5 +1,9 @@
 {
   "schema": 2,
+  "slug": "standup",
+  "name": "Standup",
+  "version": "1.0.0",
+  "description": "AI-Native Daily Standup — pull commits, PRs, issues from GitHub/Slack/Calendar and produce a structured standup with automatic blocker detection.",
   "permissions": ["tools.invoke", "storage.read", "storage.write", "llm.complete"],
   "required_executas": [
     {
