@@ -1,0 +1,6 @@
+{
+  "tool_id": "standup-tool",
+  "type": "python",
+  "command": ["python3", "standup_tool.py"],
+  "enabled": true
+}

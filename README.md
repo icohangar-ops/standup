@@ -103,20 +103,24 @@ A declarative methodology document — "prompt-as-code" — that governs how the
 
 Change the playbook, change the behavior — no code deploy needed.
 
-### App Manifest
+### App Manifest (v2)
 
-Bundles both Executas with a `system_prompt_addendum` that activates the entire workflow when the user types `#standup`. Declares `standup-tool` as a required Tool Executa and `standup-playbook` as a required Skill Executa.
+Bundles both Executas with a `system_prompt_addendum` that activates the entire workflow when the user types `#standup`. Uses Anna App manifest schema v2 with UI bundle support. Declares `standup-tool` as a required Tool Executa and `standup-playbook` as a required Skill Executa.
 
 ```
-standup-anna/
-├── executa/standup-tool/
-│   └── standup_tool.py       # 4 tools, 430 lines, zero deps
-├── skill/standup-playbook/
-│   └── SKILL.md              # 110 lines of declarative methodology
-├── app/
-│   └── manifest.json          # Anna App manifest v1
-├── logo.png                   # 480x480
-├── thumbnail.png              # 1344x768
+standup/
+├── manifest.json                        # Anna App manifest v2
+├── executas/standup-tool/
+│   ├── executa.json                      # Executa config (tool_id, type, command)
+│   ├── pyproject.toml                    # Python project metadata
+│   └── standup_tool.py                   # 4 tools, 430 lines, zero deps
+├── executas/standup-playbook/
+│   ├── executa.json                      # Skill executa config
+│   └── SKILL.md                          # 110 lines of declarative methodology
+├── bundle/
+│   └── index.html                        # UI bundle entry (static SPA)
+├── logo.png                              # 480x480
+├── thumbnail.png                         # 1344x768
 └── README.md
 ```
 
@@ -165,8 +169,9 @@ For a 5-person team, that's **12.5 hours per week reclaimed** — not from elimi
 - **Protocol**: JSON-RPC 2.0 over stdio (Anna Executa specification)
 - **Language**: Python 3.10+ (stdlib only — zero external dependencies)
 - **Skill Format**: SKILL.md with YAML frontmatter (Anna Skill Executa specification)
-- **App Format**: JSON manifest v1 (Anna App specification)
-- **Total size**: 430 lines Python + 110 lines SKILL.md + 1 JSON manifest
+- **App Format**: JSON manifest v2 with UI bundle (Anna App specification)
+- **CLI**: `@anna-ai/cli` for validate, dev, publish lifecycle
+- **Total size**: 430 lines Python + 110 lines SKILL.md + 1 JSON manifest + UI bundle
 
 ---
 

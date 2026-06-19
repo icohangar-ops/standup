@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Standup</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #e5e5e5; padding: 24px; }
+  .container { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 20px; margin-bottom: 4px; }
+  .subtitle { color: #737373; font-size: 13px; margin-bottom: 20px; }
+  .section { margin-bottom: 16px; }
+  .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #525252; margin-bottom: 6px; font-weight: 600; }
+  .section-content { font-size: 14px; line-height: 1.6; }
+  .section-content li { margin-bottom: 4px; }
+  .metrics { font-size: 12px; color: #525252; border-top: 1px solid #262626; padding-top: 12px; margin-top: 16px; }
+  .empty { color: #525252; font-style: italic; }
+  .loading { display: flex; align-items: center; justify-content: center; height: 200px; color: #525252; }
+  #standup-output { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="loading" id="loading">Generating standup...</div>
+  <div id="standup-output">
+    <h1>&#x1F3A4; Standup</h1>
+    <div class="subtitle" id="date-line"></div>
+    <div id="sections"></div>
+    <div class="metrics" id="metrics-line"></div>
+  </div>
+</div>
+<script type="module">
+  import { AnnaAppRuntime } from "/static/anna-apps/_sdk/latest/index.js";
+  const anna = await AnnaAppRuntime.connect();
+  anna.on("entry_payload", async (payload) => {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("standup-output").style.display = "block";
+    const data = payload?.data || {};
+    document.getElementById("date-line").textContent = data.username ? `${data.username} — ${data.date}` : data.date || "";
+    const sections = data.sections || {};
+    const container = document.getElementById("sections");
+    for (const [title, items] of Object.entries(sections)) {
+      const div = document.createElement("div");
+      div.className = "section";
+      div.innerHTML = `<div class="section-title">${title}</div><ul class="section-content">${(items||[]).map(i=>`<li>${i}</li>`).join("")}</ul>`;
+      container.appendChild(div);
+    }
+    const m = data.metrics || {};
+    document.getElementById("metrics-line").textContent = `${m.total_commits||0} commits · ${m.merged_prs||0} PRs merged · ${m.open_prs||0} PRs open · ${m.blocker_count||0} blocker(s)`;
+  });
+</script>
+</body>
+</html>

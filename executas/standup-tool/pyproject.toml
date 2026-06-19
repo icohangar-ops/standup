@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "standup-tool"
+version = "1.0.0"
+description = "Anna Executa — structured daily standup with blocker detection"
+requires-python = ">=3.10"
+
+[project.scripts]
+"standup-tool" = "standup_tool:main"
+
+[tool.setuptools]
+py-modules = ["standup_tool"]
