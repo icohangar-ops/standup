@@ -177,3 +177,23 @@ For a 5-person team, that's **12.5 hours per week reclaimed** — not from elimi
 
 **Team**: Cubiczan · **Category**: Productivity
 Built with [Anna Developer Platform](https://anna.partners/developers) for the [Anna AI-Native App Hackathon](https://dorahacks.io/hackathon/2204/detail).
+## Propagation decisions
+
+Decisions from the portfolio propagation matrix (SecOps/Gov wave C), recorded
+per the adopt-or-reverse contract. Revisit triggers are binding.
+
+### Row 31 — typed claim lifecycle: REVERSED
+
+The governed claim lifecycle (typed claims, four-eyes review, human locks,
+lock-gated exports) is for machine-generated claims that humans or
+downstream systems consume and must be able to trust and audit. This repo
+generates personal standup summaries from the developer's own activity; the
+output goes to the developer who did the work, in a channel they can
+already correct conversationally. There is no claim consumer, no review
+step, and no export gate — the lifecycle's ceremony would have no party on
+any side of it.
+
+**Revisit trigger:** standup output starts feeding an externally-consumed
+compliance artifact (e.g. investor updates or status reports that others
+act on without the author in the loop). Then adopt the canonical lifecycle
+(erp-control-plane is the reference shape).
